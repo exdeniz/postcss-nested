@@ -2,7 +2,7 @@ let postcss = require('postcss')
 
 let plugin = require('./')
 
-function run (input, output, opts) {
+function run(input, output, opts) {
   let result = postcss([plugin(opts)]).process(input, { from: '/test.css' })
   expect(result.css).toEqual(output)
   expect(result.warnings()).toHaveLength(0)
@@ -211,16 +211,14 @@ it('works with other visitors', () => {
     return {
       postcssPlugin: 'mixin',
       AtRule: {
-        mixin (node) {
+        mixin(node) {
           node.replaceWith('.in{.deep{color:blue}}')
         }
       }
     }
   }
   mixinPlugin.postcss = true
-  let out = postcss([plugin, mixinPlugin]).process(css, {
-    from: undefined
-  }).css
+  let out = postcss([plugin, mixinPlugin]).process(css, { from: undefined }).css
   expect(out).toEqual('a b{color:red}a .in .deep{color:blue}')
 })
 
@@ -230,16 +228,14 @@ it('works with other visitors #2', () => {
     return {
       postcssPlugin: 'mixin',
       AtRule: {
-        mixin (node) {
+        mixin(node) {
           node.replaceWith('.in { .deep {color:blue} }')
         }
       }
     }
   }
   mixinPlugin.postcss = true
-  let out = postcss([plugin, mixinPlugin]).process(css, {
-    from: undefined
-  }).css
+  let out = postcss([plugin, mixinPlugin]).process(css, { from: undefined }).css
   expect(out).toEqual('a .in .deep {color:blue} a b {color:red}')
 })
 

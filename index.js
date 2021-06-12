@@ -1,6 +1,6 @@
 let parser = require('postcss-selector-parser')
 
-function parse (str, rule) {
+function parse(str, rule) {
   let nodes
   let saver = parser(parsed => {
     nodes = parsed
@@ -17,7 +17,7 @@ function parse (str, rule) {
   return nodes.at(0)
 }
 
-function replace (nodes, parent) {
+function replace(nodes, parent) {
   let replaced = false
   nodes.each(i => {
     if (i.type === 'nesting') {
@@ -37,7 +37,7 @@ function replace (nodes, parent) {
   return replaced
 }
 
-function selectors (parent, child) {
+function selectors(parent, child) {
   let result = []
   parent.selectors.forEach(i => {
     let parentNode = parse(i, parent)
@@ -57,7 +57,7 @@ function selectors (parent, child) {
   return result
 }
 
-function pickComment (comment, after) {
+function pickComment(comment, after) {
   if (comment && comment.type === 'comment') {
     after.after(comment)
     return comment
@@ -66,7 +66,7 @@ function pickComment (comment, after) {
   }
 }
 
-function atruleChilds (rule, atrule, bubbling) {
+function atruleChilds(rule, atrule, bubbling) {
   let children = []
   atrule.each(child => {
     if (child.type === 'comment') {
@@ -90,7 +90,7 @@ function atruleChilds (rule, atrule, bubbling) {
   }
 }
 
-function pickDeclarations (selector, declarations, after, Rule) {
+function pickDeclarations(selector, declarations, after, Rule) {
   let parent = new Rule({
     selector,
     nodes: []
@@ -104,7 +104,7 @@ function pickDeclarations (selector, declarations, after, Rule) {
   return parent
 }
 
-function atruleNames (defaults, custom) {
+function atruleNames(defaults, custom) {
   let list = {}
   for (let i of defaults) {
     list[i] = true
@@ -134,7 +134,7 @@ module.exports = (opts = {}) => {
 
   return {
     postcssPlugin: 'postcss-nested',
-    Rule (rule, { Rule }) {
+    Rule(rule, { Rule }) {
       let unwrapped = false
       let after = rule
       let copyDeclarations = false
